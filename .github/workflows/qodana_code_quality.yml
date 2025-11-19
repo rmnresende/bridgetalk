@@ -1,0 +1,14 @@
+name: Validate PR
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ensure branch is up to date
+        uses: fkirc/skip-duplicate-actions@v5
