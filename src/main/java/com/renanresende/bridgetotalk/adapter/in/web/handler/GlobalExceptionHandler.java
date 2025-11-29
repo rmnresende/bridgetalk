@@ -2,6 +2,7 @@ package com.renanresende.bridgetotalk.adapter.in.web.handler;
 
 import com.renanresende.bridgetotalk.adapter.in.web.dto.ApiError;
 import com.renanresende.bridgetotalk.domain.exception.BusinessException;
+import com.renanresende.bridgetotalk.domain.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,19 +22,19 @@ public class GlobalExceptionHandler {
     ) {
 
         var error = new ApiError(
-                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.UNPROCESSABLE_ENTITY.value(),
                 "BUSINESS_ERROR",
                 ex.getMessage(),
                 request.getRequestURI(),
                 Instant.now()
         );
 
-        return ResponseEntity.badRequest().body(error);
+        return ResponseEntity.unprocessableEntity().body(error);
     }
 
-    @ExceptionHandler(NoSuchElementException.class)
+    @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ApiError> handleNotFound(
-            NoSuchElementException ex,
+            ResourceNotFoundException ex,
             HttpServletRequest request
     ) {
         var error = new ApiError(

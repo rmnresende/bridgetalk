@@ -9,6 +9,7 @@ import com.renanresende.bridgetotalk.domain.exception.BusinessException;
 import com.renanresende.bridgetotalk.domain.Company;
 import com.renanresende.bridgetotalk.domain.CompanySettings;
 import com.renanresende.bridgetotalk.domain.CompanyStatus;
+import com.renanresende.bridgetotalk.domain.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -36,7 +37,7 @@ public class CompanyService implements ManageCompanyUseCase {
     public Company update(UpdateCompanyCommand command) throws BusinessException {
 
         var existing = repository.findById(command.id())
-                .orElseThrow(() -> new BusinessException("Company not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
 
         commandMapper.updateDomainFromCommand(command, existing);
 
@@ -49,7 +50,7 @@ public class CompanyService implements ManageCompanyUseCase {
     public CompanySettings updateSettings(UUID companyId, UpdateCompanySettingsCommand updateCompanySettingsCommand) throws BusinessException {
 
         var existingCompany = repository.findById(companyId)
-                .orElseThrow(() -> new BusinessException("Company not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
 
         existingCompany.getSettings().applyUpdate(updateCompanySettingsCommand);
 
@@ -70,7 +71,7 @@ public class CompanyService implements ManageCompanyUseCase {
     public Company changeStatus(UUID companyId, CompanyStatus newStatus) throws BusinessException {
 
         Company company = repository.findById(companyId)
-                .orElseThrow(() -> new BusinessException("Company not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
 
         company.changeStatus(newStatus);
 
