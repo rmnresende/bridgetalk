@@ -3,9 +3,12 @@ package com.renanresende.bridgetotalk.adapter.out.jpa;
 import com.renanresende.bridgetotalk.adapter.out.jpa.mapper.AgentJpaMapper;
 import com.renanresende.bridgetotalk.application.port.out.AgentRepositoryPort;
 import com.renanresende.bridgetotalk.domain.Agent;
+import com.renanresende.bridgetotalk.domain.AgentStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,11 +37,18 @@ public class AgentRepositoryAdapter implements AgentRepositoryPort {
 
     @Override
     public Optional<Agent> findActiveAgentByCompanyIdAndEmail(UUID companyId, String email) {
-        return Optional.empty();
+        return repository.findActiveByEmailAndCompanyId(email, companyId)
+                .map(mapper::toDomain);
     }
 
     @Override
     public void associateAgentToQueue(UUID agentId, UUID queueId) {
 
+    }
+
+    @Override
+    @Transactional
+    public void updateStatus(Agent agent) {
+        repository.updateStatus(agent.getId(), agent.getStatus(), agent.getUpdatedAt());
     }
 }

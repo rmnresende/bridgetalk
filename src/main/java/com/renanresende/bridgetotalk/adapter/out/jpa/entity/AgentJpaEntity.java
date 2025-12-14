@@ -18,8 +18,6 @@ import java.util.UUID;
 public class AgentJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "UUID")
     private  UUID id;
 
     @Column(name = "company_id", columnDefinition = "UUID", nullable = false)

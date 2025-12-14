@@ -1,9 +1,11 @@
 package com.renanresende.bridgetotalk.adapter.in.web;
 
 import com.renanresende.bridgetotalk.adapter.in.web.dto.AgentDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.UpdateAgentDto;
 import com.renanresende.bridgetotalk.adapter.in.web.mapper.AgentDtoMapper;
 import com.renanresende.bridgetotalk.adapter.in.web.mapper.CompanyDtoMapper;
 import com.renanresende.bridgetotalk.application.service.ManagmentAgentService;
+import com.renanresende.bridgetotalk.domain.AgentStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,5 +46,21 @@ public class AgentController {
 
         var domain = service.getActiveAgent(id, companyId);
         return ResponseEntity.ok(mapper.toDto(domain));
+    }
+
+    @GetMapping("/company/{companyId}/email/{email}")
+    public ResponseEntity<AgentDto> getActiveAgentByIdAndCompany(@PathVariable UUID companyId, @PathVariable String email){
+
+        var domain = service.findActiveAgentByCompanyIdAndEmail(companyId, email);
+        return ResponseEntity.ok(mapper.toDto(domain));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Void> updateStatus(
+            @PathVariable UUID id,
+            @RequestBody UpdateAgentDto request)
+    {
+        service.updateAgentStatus(id, request.companyId(), request.status());
+        return ResponseEntity.noContent().build();
     }
 }

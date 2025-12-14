@@ -16,7 +16,7 @@ public interface AgentCommandMapper {
     AgentJpaEntity toEntity(CreateAgentCommand command);
 
     default Agent toDomain(CreateAgentCommand command){
-        return Agent.createNew(command.id(),
+        return Agent.createNew(
                 command.companyId(),
                 command.name(),
                 command.email(),

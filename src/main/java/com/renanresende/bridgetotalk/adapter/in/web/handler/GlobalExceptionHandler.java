@@ -62,8 +62,8 @@ public class GlobalExceptionHandler {
             DataIntegrityViolationException ex,
             HttpServletRequest request
     ) {
-        String dbMessage = ex.getMostSpecificCause().getMessage();
-        String friendlyMessage = constraintMessageResolver.resolve(dbMessage);
+        var dbMessage = ex.getMostSpecificCause().getMessage();
+        var friendlyMessage = constraintMessageResolver.resolve(dbMessage);
 
         var error = new ApiError(
                 HttpStatus.CONFLICT.value(),

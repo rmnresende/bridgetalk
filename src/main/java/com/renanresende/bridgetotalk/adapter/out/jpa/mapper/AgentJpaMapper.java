@@ -7,14 +7,23 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface AgentJpaMapper {
 
-    default Agent toDomain(AgentJpaEntity agentJpaEntity){
-        return Agent.createNew(agentJpaEntity.getId(),
-                agentJpaEntity.getCompanyId(),
-                agentJpaEntity.getName(),
-                agentJpaEntity.getEmail(),
-                agentJpaEntity.getPasswordHash(),
-                agentJpaEntity.getRole());
+    default Agent toDomain(AgentJpaEntity entity) {
+        if (entity == null) return null;
+
+        return Agent.rehydrate(
+                entity.getId(),
+                entity.getCompanyId(),
+                entity.getName(),
+                entity.getEmail(),
+                entity.getPasswordHash(),
+                entity.getRole(),
+                entity.getStatus(),
+                entity.getCreatedAt(),
+                entity.getUpdatedAt(),
+                entity.getDeletedAt()
+        );
     }
+
 
     AgentJpaEntity toEntity(Agent agent);
 }

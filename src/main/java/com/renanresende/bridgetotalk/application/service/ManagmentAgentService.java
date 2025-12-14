@@ -33,23 +33,28 @@ public class ManagmentAgentService implements ManageAgentUseCase {
         companyRepository.findById(command.companyId())
                 .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
 
-        var entity = mapper.toDomain(command);
-        return repository.save(entity);
+        var newAgentDomain = mapper.toDomain(command);
+        return repository.save(newAgentDomain);
     }
 
     @Override
     public Agent getActiveAgent(UUID id, UUID companyId) {
-
-        companyRepository.findById(companyId)
-                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
-
         return repository.findActiveAgentByIdAndCompanyId(id, companyId).
                 orElseThrow(() -> new ResourceNotFoundException("Agent not found"));
     }
 
-    @Override
-    public void updateAgentStatus(UUID id, AgentStatus status) {
+    public Agent findActiveAgentByCompanyIdAndEmail(UUID companyId, String email){
+        return repository.findActiveAgentByCompanyIdAndEmail(companyId, email)
+                .orElseThrow(() -> new ResourceNotFoundException("Agent not found"));
+    }
 
+    @Override
+    public void updateAgentStatus(UUID id, UUID companyId, AgentStatus status) {
+
+        var existingAgent = getActiveAgent(id, companyId);
+        existingAgent.changeStatus(status);
+
+        repository.updateStatus(existingAgent);
     }
 
     @Override

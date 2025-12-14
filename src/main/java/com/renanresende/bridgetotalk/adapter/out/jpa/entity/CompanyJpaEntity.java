@@ -15,12 +15,9 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class CompanyJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(columnDefinition = "UUID")
     private UUID id;
 
     @Column(nullable = false)
@@ -52,6 +49,6 @@ public class CompanyJpaEntity {
     private Instant deletedAt;
 
     @Setter
-    @OneToOne(mappedBy = "company", cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "company", fetch = FetchType.EAGER)
     private CompanySettingsJpaEntity settings;
 }

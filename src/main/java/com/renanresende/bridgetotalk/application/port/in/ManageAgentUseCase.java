@@ -12,7 +12,7 @@ public interface ManageAgentUseCase {
 
     Agent getActiveAgent(UUID id, UUID companyId);
 
-    void updateAgentStatus(UUID id, AgentStatus status);
+    void updateAgentStatus(UUID id, UUID companyId, AgentStatus status);
 
 //    void associateAgentToQueue(AssociateAgentToQueueCommand command);
 

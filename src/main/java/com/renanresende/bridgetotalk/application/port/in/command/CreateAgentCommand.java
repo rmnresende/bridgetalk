@@ -6,11 +6,9 @@ import com.renanresende.bridgetotalk.domain.AgentStatus;
 import java.util.UUID;
 
 public record CreateAgentCommand(
-        UUID id,
         UUID companyId,
         String name,
         String email,
         String passwordHash,
-        AgentRole role,
-        AgentStatus status
+        AgentRole role
 ) {}
