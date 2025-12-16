@@ -1,5 +1,6 @@
 package com.renanresende.bridgetotalk.application.service;
 
+import com.renanresende.bridgetotalk.adapter.in.web.dto.AgentFilter;
 import com.renanresende.bridgetotalk.application.mapper.AgentCommandMapper;
 import com.renanresende.bridgetotalk.application.port.in.ManageAgentUseCase;
 import com.renanresende.bridgetotalk.application.port.in.command.CreateAgentCommand;
@@ -10,6 +11,7 @@ import com.renanresende.bridgetotalk.domain.AgentStatus;
 import com.renanresende.bridgetotalk.domain.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -43,6 +45,12 @@ public class ManagmentAgentService implements ManageAgentUseCase {
                 orElseThrow(() -> new ResourceNotFoundException("Agent not found"));
     }
 
+    @Override
+    public List<Agent> filterActiveAgentsByCompanyId(AgentFilter agentFilter, UUID companyId) {
+
+        return repository.findAllActiveAgentsByCompanyId(agentFilter, companyId);
+    }
+
     public Agent findActiveAgentByCompanyIdAndEmail(UUID companyId, String email){
         return repository.findActiveAgentByCompanyIdAndEmail(companyId, email)
                 .orElseThrow(() -> new ResourceNotFoundException("Agent not found"));
@@ -58,7 +66,7 @@ public class ManagmentAgentService implements ManageAgentUseCase {
     }
 
     @Override
-    public boolean deleteAgent(UUID id) {
-        return false;
+    public void deleteAgent(UUID id, UUID companyId) {
+        repository.deleteAgent(id, companyId);
     }
 }

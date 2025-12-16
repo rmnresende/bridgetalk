@@ -47,8 +47,8 @@ public class FakeDataSeeder {
                 createAgents(faker, manageAgentUseCase, company.getId());
             }
 
-            log.info("✅ Database initialized successfully!");
-            log.info("📊 Created {} companies with agents", companies.size());
+            log.info("Database initialized successfully!");
+            log.info("Created {} companies with agents", companies.size());
         };
     }
 
