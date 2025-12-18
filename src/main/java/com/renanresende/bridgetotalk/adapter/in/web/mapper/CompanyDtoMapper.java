@@ -1,13 +1,15 @@
 package com.renanresende.bridgetotalk.adapter.in.web.mapper;
 
-import com.renanresende.bridgetotalk.adapter.in.web.dto.CreateCompanyDto;
-import com.renanresende.bridgetotalk.adapter.in.web.dto.CompanySettingsUpdateDto;
-import com.renanresende.bridgetotalk.adapter.in.web.dto.ResponseCompanyDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.company.CompanySettingsUpdateDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.company.CreateCompanyDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.company.ResponseCompanyDto;
 import com.renanresende.bridgetotalk.application.port.in.command.UpdateCompanyCommand;
-import com.renanresende.bridgetotalk.domain.exception.BusinessException;
 import com.renanresende.bridgetotalk.domain.Company;
 import com.renanresende.bridgetotalk.domain.CompanySettings;
-import org.mapstruct.*;
+import com.renanresende.bridgetotalk.domain.exception.BusinessException;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.UUID;
 

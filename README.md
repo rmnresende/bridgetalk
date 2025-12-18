@@ -1,4 +1,4 @@
-# TalkBridge - Customer Engagement Platform 🌉
+# BridgetoTalk - Customer Engagement Platform 🌉
 
 [![Java Version](https://img.shields.io/badge/Java-25-blue.svg)](https://www.oracle.com/java/technologies/javase/25-downloads.html)
 [![Spring Boot Version](https://img.shields.io/badge/Spring_Boot-4.x-green.svg)](https://spring.io/projects/spring-boot)
@@ -51,13 +51,13 @@ The main package structure (`com.renanresende.bridgetotalk`) follows the Hexagon
 
 ### 1. Database Configuration
 
-Create a PostgreSQL database (e.g., `talkbridge_db`).
+Create a PostgreSQL database (e.g., `bridgetotalk`).
 
 Configure the connection details in your `application.properties` (or `application.yml`):
 
 ```properties
 # src/main/resources/application.properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/talkbridge_db
+spring.datasource.url=jdbc:postgresql://localhost:5432/bridgetotalk
 spring.datasource.username=your_postgres_user
 spring.datasource.password=your_postgres_password
 spring.jpa.hibernate.ddl-auto=update # Use 'validate' or 'none' in production

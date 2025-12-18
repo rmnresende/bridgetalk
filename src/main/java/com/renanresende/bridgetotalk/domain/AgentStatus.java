@@ -1,9 +1,5 @@
 package com.renanresende.bridgetotalk.domain;
 
-import com.renanresende.bridgetotalk.domain.exception.InvalidEnumValueException;
-
-import java.util.Arrays;
-
 public enum AgentStatus {
     AVAILABLE("Available"),       // Pode receber novas conversas (rotação).
     BUSY("Busy"),                 // Está em uma conversa, mas ainda pode ser elegível dependendo da estratégia.
@@ -16,30 +12,17 @@ public enum AgentStatus {
         this.description = description;
     }
 
-
     public static AgentStatus from(String value) {
 
         if (value == null || value.isBlank()) {
             return null;
         }
 
-        return Arrays.stream(values())
-                .filter(s -> s.name().equalsIgnoreCase(value))
-                .findFirst()
-                .orElseThrow(() ->
-                        new InvalidEnumValueException(
-                                "status",
-                                value,
-                                valuesAsString()
-                        )
-                );
+        try {
+            return AgentStatus.valueOf(value.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            // Isso não deve acontecer se a validação passou, mas é defesa
+            throw new IllegalStateException("Valor inválido após validação: " + value);
+        }
     }
-
-    private static String valuesAsString() {
-        return Arrays.stream(values())
-                .map(Enum::name)
-                .toList()
-                .toString();
-    }
-
 }

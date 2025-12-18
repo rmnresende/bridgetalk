@@ -55,7 +55,7 @@ public class CompanySettings {
             throw new BusinessException("Update data can not be null");
         }
 
-        Plan updatedPlan = update.plan() == null
+        var updatedPlan = update.plan() == null
                 ? this.getPlan()
                 : update.plan();
 

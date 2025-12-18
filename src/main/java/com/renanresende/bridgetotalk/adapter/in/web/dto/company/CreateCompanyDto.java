@@ -1,4 +1,4 @@
-package com.renanresende.bridgetotalk.adapter.in.web.dto;
+package com.renanresende.bridgetotalk.adapter.in.web.dto.company;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.renanresende.bridgetotalk.domain.Plan;

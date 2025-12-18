@@ -1,10 +1,11 @@
 package com.renanresende.bridgetotalk.adapter.out.jpa.entity;
 
-import com.renanresende.bridgetotalk.domain.CompanySettings;
 import com.renanresende.bridgetotalk.domain.CompanyStatus;
-import com.renanresende.bridgetotalk.domain.Plan;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.UUID;

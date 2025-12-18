@@ -1,9 +1,13 @@
--- ============================
---  COMPANY
--- ============================
+-- Migration: Create agents table
+-- Description: Creates the agents table with UUID generation handled by the database
+-- Author: Renan Resende
+-- Date: 11/2025
+
+-- Create extension for UUID generation (PostgreSQL)
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE companies (
-    id UUID PRIMARY KEY,
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) NOT NULL UNIQUE,
     email VARCHAR(255) NOT NULL UNIQUE,

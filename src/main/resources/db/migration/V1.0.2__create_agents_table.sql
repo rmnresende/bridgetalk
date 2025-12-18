@@ -15,11 +15,12 @@ CREATE TABLE agents (
                         password_hash VARCHAR(255) NOT NULL,
                         role VARCHAR(50) NOT NULL,
                         status VARCHAR(50) NOT NULL,
-                        created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        deleted_at TIMESTAMP NULL,
+                        created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+                        updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL,
+                        deleted_at TIMESTAMP WITH TIME ZONE,
 
-    -- Constraints
+                        -- Constraints
+                        CONSTRAINT fk_agents_company FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE RESTRICT,
                         CONSTRAINT chk_agent_role CHECK (role IN ('ADMIN', 'MANAGER', 'AGENT')),
                         CONSTRAINT chk_agent_status CHECK (status IN ('AVAILABLE', 'BUSY', 'PAUSED', 'OFFLINE'))
 );

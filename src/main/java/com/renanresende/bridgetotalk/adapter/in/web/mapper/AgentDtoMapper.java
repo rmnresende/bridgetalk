@@ -1,6 +1,6 @@
 package com.renanresende.bridgetotalk.adapter.in.web.mapper;
 
-import com.renanresende.bridgetotalk.adapter.in.web.dto.AgentDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.agent.AgentDto;
 import com.renanresende.bridgetotalk.application.port.in.command.CreateAgentCommand;
 import com.renanresende.bridgetotalk.domain.Agent;
 import org.mapstruct.Mapper;

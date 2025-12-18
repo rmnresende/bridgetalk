@@ -2,16 +2,12 @@ package com.renanresende.bridgetotalk.adapter.out.jpa.mapper;
 
 import com.renanresende.bridgetotalk.adapter.out.jpa.entity.CompanyJpaEntity;
 import com.renanresende.bridgetotalk.adapter.out.jpa.entity.CompanySettingsJpaEntity;
-import com.renanresende.bridgetotalk.domain.CompanyStatus;
-import com.renanresende.bridgetotalk.domain.Plan;
-import com.renanresende.bridgetotalk.domain.exception.BusinessException;
 import com.renanresende.bridgetotalk.domain.Company;
 import com.renanresende.bridgetotalk.domain.CompanySettings;
-import org.mapstruct.*;
-
-import java.time.Instant;
-import java.util.Objects;
-import java.util.UUID;
+import org.mapstruct.BeanMapping;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface CompanyJpaMapper {

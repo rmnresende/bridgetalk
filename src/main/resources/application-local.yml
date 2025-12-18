@@ -1,7 +1,10 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop # Reseta sempre que iniciar
+      ddl-auto: validate
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
 
 management:
   server:

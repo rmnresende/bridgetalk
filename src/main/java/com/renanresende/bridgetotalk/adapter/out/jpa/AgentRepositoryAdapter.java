@@ -1,13 +1,13 @@
 package com.renanresende.bridgetotalk.adapter.out.jpa;
 
-import com.renanresende.bridgetotalk.adapter.in.web.dto.AgentFilter;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.agent.AgentFilter;
 import com.renanresende.bridgetotalk.adapter.out.jpa.mapper.AgentJpaMapper;
 import com.renanresende.bridgetotalk.adapter.out.jpa.spec.AgentSpecification;
 import com.renanresende.bridgetotalk.adapter.out.jpa.spec.SortParams;
 import com.renanresende.bridgetotalk.application.port.out.AgentRepositoryPort;
 import com.renanresende.bridgetotalk.domain.Agent;
 import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
+@Repository
 public class AgentRepositoryAdapter implements AgentRepositoryPort {
 
     private final SpringDataAgentRepository repository;
@@ -48,8 +48,8 @@ public class AgentRepositoryAdapter implements AgentRepositoryPort {
     public List<Agent> findAllActiveAgentsByCompanyId(AgentFilter agentFilter, UUID companyId) {
 
         var especification = AgentSpecification.withOptionalFiltersByCompany(agentFilter, companyId);
-        var sortField = SortParams.validateFieldToSortAgent(agentFilter.sortBy().orElse(null));
-        var sortDirection = SortParams.validateDirection(agentFilter.sortDirection().orElse(null));
+        var sortField = SortParams.validateFieldToSort(agentFilter.queryOptions().sortBy().orElse(null), "agent");
+        var sortDirection = SortParams.validateDirection(agentFilter.queryOptions().sortDirection().orElse(null));
 
         return repository.findAll(especification, Sort.by(sortDirection, sortField))
                 .stream()

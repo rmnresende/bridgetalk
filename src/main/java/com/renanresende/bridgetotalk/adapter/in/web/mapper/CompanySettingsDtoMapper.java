@@ -1,9 +1,9 @@
 package com.renanresende.bridgetotalk.adapter.in.web.mapper;
 
-import com.renanresende.bridgetotalk.adapter.in.web.dto.CompanySettingsUpdateDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.company.CompanySettingsUpdateDto;
 import com.renanresende.bridgetotalk.application.port.in.command.UpdateCompanySettingsCommand;
-import com.renanresende.bridgetotalk.domain.exception.BusinessException;
 import com.renanresende.bridgetotalk.domain.CompanySettings;
+import com.renanresende.bridgetotalk.domain.exception.BusinessException;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 

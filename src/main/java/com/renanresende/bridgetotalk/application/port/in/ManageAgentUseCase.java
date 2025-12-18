@@ -1,6 +1,6 @@
 package com.renanresende.bridgetotalk.application.port.in;
 
-import com.renanresende.bridgetotalk.adapter.in.web.dto.AgentFilter;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.agent.AgentFilter;
 import com.renanresende.bridgetotalk.application.port.in.command.CreateAgentCommand;
 import com.renanresende.bridgetotalk.domain.Agent;
 import com.renanresende.bridgetotalk.domain.AgentStatus;
@@ -14,7 +14,7 @@ public interface ManageAgentUseCase {
 
     Agent getActiveAgent(UUID id, UUID companyId);
 
-    List<Agent> filterActiveAgentsByCompanyId(AgentFilter agentFilter, UUID companyId);
+    List<Agent> filterAgentsByCompanyId(AgentFilter agentFilter, UUID companyId);
 
     void updateAgentStatus(UUID id, UUID companyId, AgentStatus status);
 

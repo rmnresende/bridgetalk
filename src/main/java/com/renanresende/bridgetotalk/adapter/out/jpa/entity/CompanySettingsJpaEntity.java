@@ -2,7 +2,10 @@ package com.renanresende.bridgetotalk.adapter.out.jpa.entity;
 
 import com.renanresende.bridgetotalk.domain.Plan;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -16,6 +19,7 @@ import java.util.UUID;
 public class CompanySettingsJpaEntity {
 
     @Id
+
     @Column(name = "company_id")
     private UUID companyId;
 

@@ -1,6 +1,7 @@
 package com.renanresende.bridgetotalk.application.port.in;
 
 import com.renanresende.bridgetotalk.domain.Conversation;
+
 import java.util.UUID;
 
 public interface OpenConversationUseCase {
