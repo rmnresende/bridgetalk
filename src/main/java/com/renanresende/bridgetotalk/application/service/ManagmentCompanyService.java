@@ -4,11 +4,10 @@ import com.renanresende.bridgetotalk.application.port.in.ManageCompanyUseCase;
 import com.renanresende.bridgetotalk.application.port.in.command.UpdateCompanyCommand;
 import com.renanresende.bridgetotalk.application.port.in.command.UpdateCompanySettingsCommand;
 import com.renanresende.bridgetotalk.application.port.out.CompanyRepositoryPort;
-import com.renanresende.bridgetotalk.domain.exception.BusinessException;
 import com.renanresende.bridgetotalk.domain.Company;
 import com.renanresende.bridgetotalk.domain.CompanySettings;
 import com.renanresende.bridgetotalk.domain.CompanyStatus;
-import com.renanresende.bridgetotalk.domain.exception.ResourceNotFoundException;
+import com.renanresende.bridgetotalk.domain.exception.CompanyNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,8 +30,8 @@ public class ManagmentCompanyService implements ManageCompanyUseCase {
     @Override
     public Company update(UpdateCompanyCommand command) {
 
-        Company existing = repository.findById(command.id())
-                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
+        var existing = repository.findById(command.id())
+                .orElseThrow(() -> new CompanyNotFoundException(command.id()));
 
         existing.update(
                 command.name(),
@@ -51,8 +50,8 @@ public class ManagmentCompanyService implements ManageCompanyUseCase {
             UpdateCompanySettingsCommand command
     ) {
 
-        Company existing = repository.findById(companyId)
-                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
+        var existing = repository.findById(companyId)
+                .orElseThrow(() -> new CompanyNotFoundException(companyId));
 
         existing.getSettings().applyUpdate(command);
 
@@ -62,7 +61,7 @@ public class ManagmentCompanyService implements ManageCompanyUseCase {
     @Override
     public Company get(UUID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
+                .orElseThrow(() -> new CompanyNotFoundException(id));
     }
 
     @Override
@@ -73,8 +72,8 @@ public class ManagmentCompanyService implements ManageCompanyUseCase {
     @Override
     public Company changeStatus(UUID companyId, CompanyStatus newStatus) {
 
-        Company company = repository.findById(companyId)
-                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
+        var company = repository.findById(companyId)
+                .orElseThrow(() -> new CompanyNotFoundException(companyId));
 
         company.changeStatus(newStatus);
 

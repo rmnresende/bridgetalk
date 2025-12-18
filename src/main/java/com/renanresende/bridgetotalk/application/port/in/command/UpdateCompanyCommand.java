@@ -1,8 +1,5 @@
 package com.renanresende.bridgetotalk.application.port.in.command;
 
-import com.renanresende.bridgetotalk.domain.CompanySettings;
-import com.renanresende.bridgetotalk.domain.CompanyStatus;
-import com.renanresende.bridgetotalk.domain.Plan;
 import java.util.UUID;
 
 public record UpdateCompanyCommand(

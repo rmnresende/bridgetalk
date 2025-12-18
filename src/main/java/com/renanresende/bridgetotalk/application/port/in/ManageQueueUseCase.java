@@ -1,27 +1,22 @@
 package com.renanresende.bridgetotalk.application.port.in;
 
+import com.renanresende.bridgetotalk.adapter.in.web.dto.queue.QueueFilter;
+import com.renanresende.bridgetotalk.application.port.in.command.CreateQueueCommand;
+import com.renanresende.bridgetotalk.application.port.in.command.UpdateQueueCommand;
 import com.renanresende.bridgetotalk.domain.Queue;
-import com.renanresende.bridgetotalk.domain.DistributionStrategy;
+
+import java.util.List;
 import java.util.UUID;
 
 public interface ManageQueueUseCase {
 
-    Queue createQueue(CreateQueueCommand command);
+    Queue createQueue(CreateQueueCommand createQueueCommand);
 
-    // Commands para encapsular dados:
-    class CreateQueueCommand {
-        private final UUID companyId;
-        private final String name;
-        private final DistributionStrategy strategy;
+    Queue updateQueue(UUID queueId, UpdateQueueCommand updateQueueCommand);
 
-        public CreateQueueCommand(UUID companyId, String name, DistributionStrategy strategy) {
-            this.companyId = companyId;
-            this.name = name;
-            this.strategy = strategy;
-        }
+    List<Queue> filterQueuesByCompanyId(QueueFilter queueFilter, UUID companyId);
 
-        // Construtor, getters
-    }
+    List<Queue> getAllActiveQueuesFromCompany(UUID companyId);
 
-    // Outros comandos para Update, Delete, etc.
+    void deleteQueue(UUID queueId, UUID companyId);
 }

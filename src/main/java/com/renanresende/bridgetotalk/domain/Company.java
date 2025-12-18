@@ -2,13 +2,13 @@ package com.renanresende.bridgetotalk.domain;
 
 import com.renanresende.bridgetotalk.domain.exception.BusinessException;
 import com.renanresende.bridgetotalk.domain.util.DomainStrings;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.Instant;
-import java.util.Objects;
 import java.util.UUID;
-
-import static com.renanresende.bridgetotalk.domain.Plan.BASIC;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)

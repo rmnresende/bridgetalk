@@ -12,7 +12,7 @@ public class Conversation {
     private final UUID queueId;
     private String protocol;
     private String channelType;
-    private ConversationStatus status; // Importado de com.renanresende.talkbridge.domain
+    private ConversationStatus status;
     private String priority;
     private final Instant createdAt;
     private Instant updatedAt;

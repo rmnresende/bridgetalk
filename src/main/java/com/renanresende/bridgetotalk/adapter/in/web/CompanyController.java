@@ -1,9 +1,9 @@
 package com.renanresende.bridgetotalk.adapter.in.web;
 
-import com.renanresende.bridgetotalk.adapter.in.web.dto.CreateCompanyDto;
-import com.renanresende.bridgetotalk.adapter.in.web.dto.CompanySettingsUpdateDto;
-import com.renanresende.bridgetotalk.adapter.in.web.dto.ResponseCompanyDto;
-import com.renanresende.bridgetotalk.adapter.in.web.dto.UpdateCompanyStatusRequestDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.company.CompanySettingsUpdateDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.company.CreateCompanyDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.company.ResponseCompanyDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.company.UpdateCompanyStatusRequestDto;
 import com.renanresende.bridgetotalk.adapter.in.web.mapper.CompanyDtoMapper;
 import com.renanresende.bridgetotalk.adapter.in.web.mapper.CompanySettingsDtoMapper;
 import com.renanresende.bridgetotalk.application.port.in.ManageCompanyUseCase;

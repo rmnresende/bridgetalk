@@ -1,6 +1,6 @@
 package com.renanresende.bridgetotalk.application.service;
 
-import com.renanresende.bridgetotalk.adapter.in.web.dto.AgentFilter;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.agent.AgentFilter;
 import com.renanresende.bridgetotalk.application.mapper.AgentCommandMapper;
 import com.renanresende.bridgetotalk.application.port.in.ManageAgentUseCase;
 import com.renanresende.bridgetotalk.application.port.in.command.CreateAgentCommand;
@@ -8,7 +8,8 @@ import com.renanresende.bridgetotalk.application.port.out.AgentRepositoryPort;
 import com.renanresende.bridgetotalk.application.port.out.CompanyRepositoryPort;
 import com.renanresende.bridgetotalk.domain.Agent;
 import com.renanresende.bridgetotalk.domain.AgentStatus;
-import com.renanresende.bridgetotalk.domain.exception.ResourceNotFoundException;
+import com.renanresende.bridgetotalk.domain.exception.AgentNotFoundException;
+import com.renanresende.bridgetotalk.domain.exception.CompanyNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class ManagmentAgentService implements ManageAgentUseCase {
     public Agent create(CreateAgentCommand command) {
 
         companyRepository.findById(command.companyId())
-                .orElseThrow(() -> new ResourceNotFoundException("Company not found"));
+                .orElseThrow(() -> new CompanyNotFoundException(command.companyId()));
 
         var newAgentDomain = mapper.toDomain(command);
         return repository.save(newAgentDomain);
@@ -42,18 +43,18 @@ public class ManagmentAgentService implements ManageAgentUseCase {
     @Override
     public Agent getActiveAgent(UUID id, UUID companyId) {
         return repository.findActiveAgentByIdAndCompanyId(id, companyId).
-                orElseThrow(() -> new ResourceNotFoundException("Agent not found"));
+                orElseThrow(() -> new AgentNotFoundException(id));
     }
 
     @Override
-    public List<Agent> filterActiveAgentsByCompanyId(AgentFilter agentFilter, UUID companyId) {
+    public List<Agent> filterAgentsByCompanyId(AgentFilter agentFilter, UUID companyId) {
 
         return repository.findAllActiveAgentsByCompanyId(agentFilter, companyId);
     }
 
     public Agent findActiveAgentByCompanyIdAndEmail(UUID companyId, String email){
         return repository.findActiveAgentByCompanyIdAndEmail(companyId, email)
-                .orElseThrow(() -> new ResourceNotFoundException("Agent not found"));
+                .orElseThrow(() -> new AgentNotFoundException(email));
     }
 
     @Override

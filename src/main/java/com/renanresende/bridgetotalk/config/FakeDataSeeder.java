@@ -1,13 +1,12 @@
 package com.renanresende.bridgetotalk.infrastructure.config;
 
-import com.renanresende.bridgetotalk.adapter.in.web.dto.AgentDto;
-import com.renanresende.bridgetotalk.adapter.in.web.mapper.AgentDtoMapper;
 import com.renanresende.bridgetotalk.application.port.in.ManageAgentUseCase;
 import com.renanresende.bridgetotalk.application.port.in.ManageCompanyUseCase;
 import com.renanresende.bridgetotalk.application.port.in.command.CreateAgentCommand;
-import com.renanresende.bridgetotalk.domain.*;
-import com.renanresende.bridgetotalk.application.port.out.CompanyRepositoryPort;
-import com.renanresende.bridgetotalk.application.port.out.AgentRepositoryPort;
+import com.renanresende.bridgetotalk.domain.AgentRole;
+import com.renanresende.bridgetotalk.domain.AgentStatus;
+import com.renanresende.bridgetotalk.domain.Company;
+import com.renanresende.bridgetotalk.domain.Plan;
 import lombok.extern.slf4j.Slf4j;
 import net.datafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
@@ -15,8 +14,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.UUID;
 
 @Configuration
 @Profile({"local"})

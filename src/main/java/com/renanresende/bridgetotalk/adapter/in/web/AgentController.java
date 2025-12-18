@@ -1,16 +1,17 @@
 package com.renanresende.bridgetotalk.adapter.in.web;
 
-import com.renanresende.bridgetotalk.adapter.in.web.dto.AgentDto;
-import com.renanresende.bridgetotalk.adapter.in.web.dto.AgentFilter;
-import com.renanresende.bridgetotalk.adapter.in.web.dto.UpdateAgentDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.QueryOptions;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.agent.AgentDto;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.agent.AgentFilter;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.agent.UpdateAgentDto;
 import com.renanresende.bridgetotalk.adapter.in.web.mapper.AgentDtoMapper;
 import com.renanresende.bridgetotalk.adapter.in.web.mapper.CompanyDtoMapper;
+import com.renanresende.bridgetotalk.adapter.in.web.validation.ValidEnum;
 import com.renanresende.bridgetotalk.application.service.ManagmentAgentService;
 import com.renanresende.bridgetotalk.domain.AgentStatus;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,30 +57,36 @@ public class AgentController {
     }
 
 
-    @GetMapping("/active/company/{companyId}")
-    public ResponseEntity<List<AgentDto>> filterActiveAgentsByCompany(@PathVariable UUID companyId,
-                                                                      @RequestParam(required = false) String name,
-                                                                      @RequestParam(required = false) String email,
-                                                                      @Parameter(
-                                                                              description = "Agent status",
-                                                                              schema = @Schema(implementation = AgentStatus.class)
-                                                                      )
-                                                                      @RequestParam(required = false) String status,
-                                                                      @RequestParam(required = false) boolean inactive,
-                                                                      @RequestParam(required = false) String sortBy,
-                                                                      @RequestParam(required = false) String sortDirection){
+    @GetMapping("/company/{companyId}")
+    public ResponseEntity<List<AgentDto>> filterAgentsByCompany(@PathVariable UUID companyId,
+                                                                @RequestParam(required = false) String name,
+                                                                @RequestParam(required = false) String email,
 
-        var agentStatus = AgentStatus.from(status);// se for um status invalido lança IllegalArgumentException
+                                                                @Parameter(
+                                                                           description = "Agent status",
+                                                                           schema = @Schema(implementation = AgentStatus.class)
+                                                                )
+                                                                @ValidEnum(enumClass = AgentStatus.class,
+                                                                           message = "Status inválido. Valores permitidos: AVAILABLE, BUSY, PAUSED, OFFLINE")
+                                                                @RequestParam(required = false) String status,
+                                                                @RequestParam(required = false) boolean inactive,
+                                                                @RequestParam(required = false) String sortBy,
+                                                                @RequestParam(required = false) String sortDirection){
+
+        var agentStatus = AgentStatus.from(status);
+
         var filter = new AgentFilter(
                 Optional.ofNullable(name),
                 Optional.ofNullable(email),
                 Optional.ofNullable(agentStatus),
-                Optional.ofNullable(sortBy),
-                Optional.ofNullable(sortDirection),
-                inactive
+                new QueryOptions(
+                        Optional.ofNullable(sortBy),
+                        Optional.ofNullable(sortDirection),
+                        inactive
+                )
         );
 
-        var response = service.filterActiveAgentsByCompanyId(filter, companyId)
+        var response = service.filterAgentsByCompanyId(filter, companyId)
                 .stream()
                 .map(mapper::toDto)
                 .toList();
@@ -87,7 +94,8 @@ public class AgentController {
     }
 
     @GetMapping("/company/{companyId}/email/{email}")
-    public ResponseEntity<AgentDto> getActiveAgentByEmailAndCompany(@PathVariable UUID companyId, @PathVariable String email){
+    public ResponseEntity<AgentDto> getActiveAgentByEmailAndCompany(@PathVariable UUID companyId,
+                                                                    @PathVariable String email){
 
         var domain = service.findActiveAgentByCompanyIdAndEmail(companyId, email);
         return ResponseEntity.ok(mapper.toDto(domain));
@@ -96,7 +104,7 @@ public class AgentController {
     @PatchMapping("/{id}/status")
     public ResponseEntity<Void> updateStatus(
             @PathVariable UUID id,
-            @RequestBody UpdateAgentDto request)
+            @Valid @RequestBody UpdateAgentDto request)
     {
         service.updateAgentStatus(id, request.companyId(), request.status());
         return ResponseEntity.noContent().build();

@@ -1,19 +1,18 @@
 package com.renanresende.bridgetotalk.adapter.out.jpa;
 
-import com.renanresende.bridgetotalk.adapter.out.jpa.entity.CompanyJpaEntity;
-import com.renanresende.bridgetotalk.adapter.out.jpa.entity.CompanySettingsJpaEntity;
 import com.renanresende.bridgetotalk.adapter.out.jpa.mapper.CompanyJpaMapper;
 import com.renanresende.bridgetotalk.application.port.out.CompanyRepositoryPort;
 import com.renanresende.bridgetotalk.domain.Company;
 import com.renanresende.bridgetotalk.domain.CompanySettings;
-import com.renanresende.bridgetotalk.domain.CompanyStatus;
-import com.renanresende.bridgetotalk.domain.exception.BusinessException;
-import org.springframework.stereotype.Component;
+import com.renanresende.bridgetotalk.domain.exception.CompanyNotFoundException;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-@Component
+@Repository
 public class CompanyRepositoryAdapter implements CompanyRepositoryPort {
 
     private final SpringDataCompanyRepository companyRepo;
@@ -53,9 +52,9 @@ public class CompanyRepositoryAdapter implements CompanyRepositoryPort {
     @Override
     public Company update(Company company) {
 
-        CompanyJpaEntity entity =
+        var entity =
                 companyRepo.findById(company.getId())
-                        .orElseThrow(() -> new IllegalStateException("Company not found"));
+                        .orElseThrow(() -> new CompanyNotFoundException(company.getId()));
 
         mapper.updateEntityFromDomain(company, entity);
 
@@ -74,9 +73,9 @@ public class CompanyRepositoryAdapter implements CompanyRepositoryPort {
     @Override
     public CompanySettings updateSettings(Company company) {
 
-        CompanyJpaEntity entity =
+        var entity =
                 companyRepo.findById(company.getId())
-                        .orElseThrow(() -> new IllegalStateException("Company not found"));
+                        .orElseThrow(() -> new CompanyNotFoundException(company.getId()));
 
         mapper.updateSettingsEntityFromDomain(
                 company.getSettings(),

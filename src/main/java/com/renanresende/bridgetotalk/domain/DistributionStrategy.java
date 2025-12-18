@@ -11,5 +11,4 @@ public enum DistributionStrategy {
     DistributionStrategy(String description) {
         this.description = description;
     }
-    // ... (Construtor e getter)
 }

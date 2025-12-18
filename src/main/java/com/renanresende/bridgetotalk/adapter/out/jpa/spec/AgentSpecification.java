@@ -1,6 +1,6 @@
 package com.renanresende.bridgetotalk.adapter.out.jpa.spec;
 
-import com.renanresende.bridgetotalk.adapter.in.web.dto.AgentFilter;
+import com.renanresende.bridgetotalk.adapter.in.web.dto.agent.AgentFilter;
 import com.renanresende.bridgetotalk.adapter.out.jpa.entity.AgentJpaEntity;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
@@ -25,7 +25,7 @@ public class AgentSpecification {
             var predicates = new ArrayList<Predicate>();
 
 
-            if(filter.findInactiveAgents()){
+            if(filter.queryOptions().includeInactive()){
                 predicates.add(criteriaBuilder.isNotNull(root.get("deletedAt")));
             }else{
                 predicates.add(criteriaBuilder.isNull(root.get("deletedAt")));
@@ -59,11 +59,6 @@ public class AgentSpecification {
                                 emailPattern
                         ));
                     });
-
-            // Se não há filtros, retorna TRUE para não impactar o resultado
-            if (predicates.isEmpty()) {
-                return criteriaBuilder.isTrue(criteriaBuilder.literal(true));
-            }
 
             // Combina todos os predicados opcionais com AND
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
