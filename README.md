@@ -1,4 +1,4 @@
-# BridgetoTalk - Customer Engagement Platform 🌉
+# BridgetoTalk - Java Spring Boot Hexagonal Architecture (Ports & adapters) - Customer Engagement Platform 🌉
 
 [![Java Version](https://img.shields.io/badge/Java-25-blue.svg)](https://www.oracle.com/java/technologies/javase/25-downloads.html)
 [![Spring Boot Version](https://img.shields.io/badge/Spring_Boot-4.x-green.svg)](https://spring.io/projects/spring-boot)
@@ -31,6 +31,59 @@ The main package structure (`com.renanresende.bridgetotalk`) follows the Hexagon
 * `...domain`: **Core Business Entities** and Enums (`Agent`, `Queue`, `Conversation`). No framework dependencies.
 * `...application`: **Use Cases** (Business Logic). Contains **Ports** (interfaces `port.in` and `port.out`) and their **Services** (implementations).
 * `...infrastructure`: **Adapters**. Handles technical details like **Web Controllers** (`web`), **Persistence** (`persistence` using Spring Data JPA), and **External Integrations** (`integration`).
+
+## Why Hexagonal Architecture?
+
+This project was built to demonstrate how to apply Hexagonal Architecture
+(Ports & Adapters) in a real-world Spring Boot application.
+
+Unlike simple CRUD examples, this codebase shows:
+
+- A domain layer fully isolated from Spring and JPA
+- Explicit inbound and outbound ports
+- Infrastructure adapters for Web and Persistence
+- Rich domain models with business rules
+
+(Read a more explained reason in)[docs/adr/ADR-001-hexagonal-architecture.md] 
+
+## How the architecture is organized?
+
+┌────────────────────────────┐                                                                                          
+│        Web (REST)          │                                                                                          
+│   Controllers / DTOs       │                                                                                          
+└──────────────┬─────────────┘                                                                                          
+               │                                                                                                        
+         Inbound Ports                                                                                                    
+               │                                                                                                        
+┌──────────────▼─────────────┐                                                                                          
+│     Application Layer      │                                                                                          
+│   Use Cases / Services     │                                                                                          
+└──────────────┬─────────────┘                                                                                         
+        Outbound Ports                                                                                                   
+               │                                                                                                       
+┌──────────────▼─────────────┐                                                                                         
+│    Infrastructure Layer    │                                                                                         
+│   JPA / External Services  │                                                                                         
+└────────────────────────────┘                                                                                         
+                                                                                                                       
+```mermaid
+flowchart LR
+    Controller --> UseCase
+    UseCase --> RepositoryPort
+    RepositoryPort --> JpaAdapter
+```
+
+## Where to start?
+
+If you want to understand the architecture, start here:
+
+1. domain/organization/Company.java – core domain entity
+2. domain/attendance/Queue.java, Conversation.java, Messsage.java - core domain entities to main flow of application
+3. domain/people/Agent.java, Customer.java - core domain entities that represent the actors in main flow of application
+2. application/port/in – use case definitions
+3. application/service – business logic orchestration
+4. adapter/out/jpa/* – persistence adapters
+
 
 ## 🛠️ Technology Stack
 
