@@ -14,7 +14,7 @@ public class OpenApiConfig {
     public OpenAPI openApi() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("API de Cadastro de Vendedores - Desafio Casas Bahia")
+                        .title("BridgeToTalk")
                         .description("BridgetoTalk is a modern, scalable, multi-tenant backend application designed to centralize and manage customer \n" +
                                 "service conversations across various external channels (WhatsApp, Telegram, etc.). It serves as a comprehensive portfolio \n" +
                                 "project demonstrating professional software architecture, domain modeling, and cloud-native readiness")
