@@ -1,4 +1,5 @@
-# # BridgeToTalk | Java 25 & Spring Boot 3.4 | Hexagonal Architecture, DDD & Multi-tenant SaaS
+# BridgeToTalk — Java 25, Spring Boot 4, Hexagonal Architecture (Ports & Adapters), DDD, Multi-Tenant SaaS
+
 
 [![Java Version](https://img.shields.io/badge/Java-25-blue.svg)](https://www.oracle.com/java/technologies/javase/25-downloads.html)
 [![Spring Boot Version](https://img.shields.io/badge/Spring_Boot-4.x-green.svg)](https://spring.io/projects/spring-boot)
@@ -11,8 +12,23 @@
 service conversations across various external channels (WhatsApp, Telegram, etc.). It serves as a comprehensive portfolio 
 project demonstrating professional software architecture, domain modeling, and cloud-native readiness.
 
+This project is intentionally designed as a reference implementation for backend engineers who want to s
+tudy architecture beyond CRUD-based examples.
+
 The core function is to route incoming customer messages to available human agents through a dynamic queue system, 
 managing the entire lifecycle of a conversation (from **WAITING_IN_QUEUE** to **CLOSED**).
+
+---
+
+## 🎯 Who is this project for?
+
+This project is ideal for:
+
+- Java developers studying **Hexagonal Architecture (Ports & Adapters)**
+- Engineers learning **DDD in real-world Spring Boot applications**
+- Developers looking for **non-trivial, non-CRUD** backend examples
+- Professionals preparing architectural portfolios
+- Teams exploring **multi-tenant SaaS backend design**
 
 ---
 
@@ -42,6 +58,8 @@ Software architecture is about trade-offs. I've documented the "why" behind majo
 * [ADR-003: Queue Business Hours](./docs/adr/ADR-003-queue-business-hours-modeling.md) - The logic behind flexible scheduling and overlap validation.
 * [ADR-004: Domain Exceptions](./docs/adr/ADR-004-domain-exceptions-strategy.md) - Strategy for handling errors without leaking infrastructure details.
 
+---
+
 ### Project Structure (Hexagonal)
 
 The main package structure (`com.renanresende.bridgetotalk`) follows the Hexagonal layers:
@@ -62,22 +80,20 @@ Unlike simple CRUD examples, this codebase shows:
 - Infrastructure adapters for Web and Persistence
 - Rich domain models with business rules
 
-(Read a more explained reason in)[docs/adr/ADR-001-hexagonal-architecture.md] 
+[Read a more explained reason in ADR-001](./docs/adr/ADR-001-hexagonal-architecture.md)
 
 ## How the architecture is organized?
 
 ```mermaid
 graph TD
-%% Configuração de Estilo: Fundo Preto, Texto Branco
-    classDef darkLayer fill:#000,stroke:#fff,stroke-width:2px,color:#fff;
+    classDef layerStyle stroke-width:2px,stroke:#326ce5;
 
-    Web["<b>Web (REST)</b><br/>Controllers / DTOs"]:::darkLayer
-    App["<b>Application Layer</b><br/>Use Cases / Services"]:::darkLayer
-    Infra["<b>Infrastructure Layer</b><br/>JPA / External Services"]:::darkLayer
+    Web["<b>Web (REST)</b><br/>Controllers / DTOs"]:::layerStyle
+    App["<b>Application Layer</b><br/>Use Cases / Services"]:::layerStyle
+    Infra["<b>Infrastructure Layer</b><br/>JPA / External Services"]:::layerStyle
 
-%% Conexões
     Web -- "Inbound Ports" --> App
-    App -- "Outbound Ports" --> Infra
+    App -- "Outbound Ports (implemented by adapters)" --> Infra
 
 ```                                                                                       
                                                                                                                        
@@ -92,18 +108,18 @@ flowchart LR
 
 If you want to understand the architecture, start here:
 
-1. domain/organization/Company.java – core domain entity
+1. domain/organization/Company.java, CompanySettings.java – core domain entity
 2. domain/attendance/Queue.java, Conversation.java, Messsage.java - core domain entities to main flow of application
-3. domain/people/Agent.java, Customer.java - core domain entities that represent the actors in main flow of application
-2. application/port/in – use case definitions
-3. application/service – business logic orchestration
-4. adapter/out/jpa/* – persistence adapters
+3. domain/people/Agent.java, Customer.java - core domain entities that represents the actors in main flow of application
+4. application/port/in – use case definitions
+5. application/service – business logic orchestration
+6. adapter/out/jpa/* – persistence adapters
 
 
 ## 🛠️ Technology Stack
 
 * **Language:** Java 25
-* **Framework:** Spring Boot 3
+* **Framework:** Spring Boot 4
 * **Database:** PostgreSQL (using UUIDs for primary keys)
 * **Build Tool:** Maven
 
@@ -117,85 +133,74 @@ If you want to understand the architecture, start here:
 * Maven 3.8+
 * PostgreSQL Server (Local or Docker)
 
-### 1. Database Configuration
 
-Create a PostgreSQL database (e.g., `bridgetotalk`).
 
-Configure the connection details in your `application.properties` (or `application.yml`):
+### 🚀 Running with Docker (Recommended)
 
-```properties
-# src/main/resources/application.properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/bridgetotalk
-spring.datasource.username=your_postgres_user
-spring.datasource.password=your_postgres_password
-spring.jpa.hibernate.ddl-auto=validate
-spring.jpa.show-sql=true0000000,
+You can run the entire application **without installing Java or Maven**.
+
+### Requirements
+- Docker
+- Docker Compose
+
+### Start the application
+
+```bash
+docker compose up --build
 ```
+
+This will start:
+
+- PostgreSQL database
+- Spring Boot API (Java 25, Spring Boot 4)
+
+  The application will be available at:
+
+
+```
+http://localhost:8080
+```
+
+#### Verify Health Status
+
+```
+curl --location 'http://localhost:8080/api/v1/actuator/health'
+```
+Expected response: 
+
+```json
+{"status":"UP"}
+```
+
+### 🧑‍💻 Running Locally (Java 25)
+
+If you prefer to run the application without Docker:
+
+### Requirements
+- Java 25
+- Maven 3.8+
+- PostgreSQL
+
+### Run
+
+```bash
+./mvnw spring-boot:run
+```
+
+## 🧪 Testing the API
+Once the application is running, you can use the cURL examples provided below to interact with the system.
+
+The API follows REST principles and uses UUIDs for all identifiers to ensure global uniqueness and prevent ID enumeration,
+a standard practice for secure multi-tenant SaaS.
+
 ## 📡 API Examples (cURL)
 
 A collection of real examples to help quickly test the API.
+See [docs/api.md](./docs/api.md) for more details.
 
-## 🔍 1. Get Company by ID
+## ⭐ Contributing & Feedback
 
-```curl
-curl --location 'http://localhost:8080/api/v1/companies/2b28e96b-e73b-4ff2-98bb-898de3ecdd55'
-```
+If this project helped you understand Hexagonal Architecture or DDD in Java,
+consider giving it a ⭐.
 
-## 🏗️ 2. Create Company
-
-<details>
-```curl
-curl --location 'http://localhost:8080/api/v1/companies' \
---header 'Content-Type: application/json' \
---data-raw '{
-"id": "668301bb-f6be-49bd-a315-d08a1491a186",
-"name": "Cool company",
-"slug": "coolcompany",
-"email": "contato@startcompany.com",
-"phone": "+5511999999999",
-"document": "coolcompany",
-"status": "ACTIVE",
-"plan": "PRO",
-"settings": {
-"maxAgents": 20,
-"maxQueues": 20,
-"timezone": "America/Sao_Paulo",
-"language": "pt",
-"createdAt": "2025-11-21T18:05:16.756701Z",
-"updatedAt": "2025-11-21T18:05:16.756706Z",
-"plan": "PRO"
-},
-"createdAt": "2025-11-21T18:05:16.747453Z",
-"updatedAt": "2025-11-21T18:05:16.747456Z"
-}'
-```
-</details>
-
-## 🏗️ 3. Update Company (General Info)
-
-<details>
-```curl
-curl --location --request PUT 'http://localhost:8080/api/v1/companies/cb031bf8-d0c7-421a-b23e-0eeff82c825b' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "phone": "+5511955661111",
-    "email": "newemail@startcompany.com"
-}'
-```
-</details>
-
-## ⚙️ 4. Update Company Settings
-
-<details>
-```curl
-curl --location --request PUT 'http://localhost:8080/api/v1/companies/cb031bf8-d0c7-421a-b23e-0eeff82c825b/settings' \
---header 'Content-Type: application/json' \
---data '{
-"maxAgents": 57,
-"maxQueues": 57,
-"timezone": "America/Sao_Paulo",
-"language": "pt",
-"plan": "ENTERPRISE"
-}'
-```
-</details>
+Feedback, discussions, and architectural suggestions are very welcome.
