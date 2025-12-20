@@ -42,6 +42,8 @@ Software architecture is about trade-offs. I've documented the "why" behind majo
 * [ADR-003: Queue Business Hours](./docs/adr/ADR-003-queue-business-hours-modeling.md) - The logic behind flexible scheduling and overlap validation.
 * [ADR-004: Domain Exceptions](./docs/adr/ADR-004-domain-exceptions-strategy.md) - Strategy for handling errors without leaking infrastructure details.
 
+---
+
 ### Project Structure (Hexagonal)
 
 The main package structure (`com.renanresende.bridgetotalk`) follows the Hexagonal layers:
@@ -62,7 +64,7 @@ Unlike simple CRUD examples, this codebase shows:
 - Infrastructure adapters for Web and Persistence
 - Rich domain models with business rules
 
-(Read a more explained reason in)[docs/adr/ADR-001-hexagonal-architecture.md] 
+[Read a more explained reason in ADR-001](./docs/adr/ADR-001-hexagonal-architecture.md)
 
 ## How the architecture is organized?
 
@@ -92,9 +94,9 @@ flowchart LR
 
 If you want to understand the architecture, start here:
 
-1. domain/organization/Company.java – core domain entity
+1. domain/organization/Company.java, CompanySettings.java – core domain entity
 2. domain/attendance/Queue.java, Conversation.java, Messsage.java - core domain entities to main flow of application
-3. domain/people/Agent.java, Customer.java - core domain entities that represent the actors in main flow of application
+3. domain/people/Agent.java, Customer.java - core domain entities that represents the actors in main flow of application
 2. application/port/in – use case definitions
 3. application/service – business logic orchestration
 4. adapter/out/jpa/* – persistence adapters
@@ -129,7 +131,7 @@ spring.datasource.url=jdbc:postgresql://localhost:5432/bridgetotalk
 spring.datasource.username=your_postgres_user
 spring.datasource.password=your_postgres_password
 spring.jpa.hibernate.ddl-auto=validate
-spring.jpa.show-sql=true0000000,
+spring.jpa.show-sql=true
 ```
 ## 📡 API Examples (cURL)
 
