@@ -1,4 +1,4 @@
-# # BridgeToTalk | Java 25 & Spring Boot 3.4 | Hexagonal Architecture, DDD & Multi-tenant SaaS
+# # BridgeToTalk | Java+ Spring Boot + Hexagonal Architecture (Ports and Adapters) + DDD | Multi-tenant SaaS
 
 [![Java Version](https://img.shields.io/badge/Java-25-blue.svg)](https://www.oracle.com/java/technologies/javase/25-downloads.html)
 [![Spring Boot Version](https://img.shields.io/badge/Spring_Boot-4.x-green.svg)](https://spring.io/projects/spring-boot)
